@@ -25,6 +25,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include "mathf.h"
+#include "io.h"
 
 /*! \brief the main function
 
@@ -34,12 +35,41 @@
 */
 int main()
 {
-
+    poly_s pf;
+    int rv;
     /* setting all the parameters */
-    float fcoeff[4] = {-10.0, 1.0, 0.0, 2.0}; /* the polynomial */
-    float xmin = 0.0;                         /* the integration range */
-    float xmax = 5.0;
-    int intervals = 5000; /* number of equally spaced intervals */
+    /* the integration range */
+    float xmin;
+    float xmax;
+    int intervals; /* number of equally spaced intervals */                         
+
+    // opening the configuration file
+    char filePath[100] = "./config.txt";
+    FILE* fptr = OpenFile(filePath);
+    if (fptr == NULL)
+    {
+        printf("\n Main - ");
+        printf("Error! Unable to open file\n");
+        exit(1);
+    }
+
+    // reading the polynomial coefficients from the config file
+    rv = ReadConfigFile(fptr, &pf, &xmin, &xmax, &intervals);
+    if (rv != 1)
+    {
+        printf("\n Main - ");
+        printf("Error! Unable to read config file\n");
+        exit(1);
+    }
+
+    // closing the config file
+    rv = CloseFile(fptr);
+    if (rv != 1)
+    {
+        printf("\n Main - ");
+        printf("Error! Unable to close file\n");
+        exit(1);
+    }
 
     float integ1, integ2;
 
@@ -59,7 +89,7 @@ int main()
     /* to get the value of the polynomial at the different points that are delimiting the intervals */
     for (i = 0; i <= intervals; i++)
     {
-        fvalues[i] = Polynomial(fcoeff, 4, in);
+        fvalues[i] = Polynomial(pf, in);
         in += gap;
     }
 

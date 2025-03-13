@@ -3,10 +3,16 @@
     \author Gabriele Triglia
 */
 
-#ifndef _MATHF_H_
-#define _MATHF_H_
-float Polynomial(float *coeff, int size, float in);
-void Rectangular(float *values, int size, float stepsize, float *integ1, float *integ2);
-float Trapezoidal(float *values, int size, float stepsize);
+#ifndef MATHF_H 
+#define MATHF_H
 
-#endif /* _MATHF_ */
+#include <stdio.h>
+#include <stdlib.h> 
+#include <string.h>
+#include "structs.h"
+
+float Polynomial(poly_s polyf, float in); 
+void Rectangular(float* values, int size, float stepsize, float* integ1, float* integ2); 
+float Trapezoidal(float* values, int size, float stepsize); 
+
+#endif
