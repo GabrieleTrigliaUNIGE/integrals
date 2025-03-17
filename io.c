@@ -45,8 +45,8 @@ int CloseFile(FILE *fPtr)
         else
         {
             return 1;
-        }   
-    }  
+        }
+    }
 }
 
 /*! @brief reads info from a configuration file: cofficients of the polygon, range, number of intervals
@@ -57,7 +57,7 @@ int CloseFile(FILE *fPtr)
     @param intervals pointer to the variable for the number of intervals
     @return 1 means that everyting is ok, -1 means that something went wrong
 */
-int ReadConfigFile(FILE *fPtr, poly_s *pf, float *xinf, float *xsup, int *intervals)
+int ReadConfigFile(FILE *fPtr, poly_s *pf, double *xinf, double *xsup, int *intervals)
 {
 
     char str[STRL];
@@ -104,7 +104,7 @@ int ReadConfigFile(FILE *fPtr, poly_s *pf, float *xinf, float *xsup, int *interv
     if (fgets(str, STRL, fPtr) != NULL)
     {
         str[strcspn(str, "\n")] = 0; /* removing end of line */
-        sscanf(str, "%f %f", xinf, xsup);
+        sscanf(str, "%lf %lf", xinf, xsup);
     }
     else
     {
@@ -118,10 +118,13 @@ int ReadConfigFile(FILE *fPtr, poly_s *pf, float *xinf, float *xsup, int *interv
     /* PUT YOUR CODE HERE */
     /* suggestion: you may use sscanf to parse the line */
 
-    if (fgets(str, STRL, fPtr) != NULL) {
+    if (fgets(str, STRL, fPtr) != NULL)
+    {
         str[strcspn(str, "\n")] = 0; /* removing end of line */
         sscanf(str, "%d", intervals);
-    } else {
+    }
+    else
+    {
         printf("\n ReadConfigFile - ");
         printf("unable to read\n");
         return -1;
@@ -139,7 +142,7 @@ int ParseLine(poly_s *pf, char *str)
 {
 
     int ctr = 0;
-    float *values = NULL;
+    double *values = NULL;
     char copy[STRL];
 
     if (str == NULL)
@@ -159,7 +162,7 @@ int ParseLine(poly_s *pf, char *str)
     }
 
     /* allocating an array to store the coefficients */
-    values = (float *)malloc(sizeof(float) * ctr);
+    values = (double *)malloc(sizeof(double) * ctr);
     if (values == NULL)
     {
         printf("\n ParseLine - ");

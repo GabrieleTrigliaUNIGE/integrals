@@ -1,6 +1,6 @@
 /** \file main.c
     \brief Numerical integration of a polynomial
-    \author Paolo Gastaldo
+    \author Gabriele Triglia
 
     second version of this software; all the functions in the math.f library
 */
@@ -39,13 +39,13 @@ int main()
     int rv;
     /* setting all the parameters */
     /* the integration range */
-    float xmin;
-    float xmax;
-    int intervals; /* number of equally spaced intervals */                         
+    double xmin;
+    double xmax;
+    int intervals; /* number of equally spaced intervals */
 
     // opening the configuration file
     char filePath[100] = "./config.txt";
-    FILE* fptr = OpenFile(filePath);
+    FILE *fptr = OpenFile(filePath);
     if (fptr == NULL)
     {
         printf("\n Main - ");
@@ -71,15 +71,15 @@ int main()
         exit(1);
     }
 
-    float integ1, integ2;
+    double integ1, integ2;
 
     int i;
-    float in = xmin;
-    float gap = (xmax - xmin) / (float)intervals;
-    float *fvalues = NULL;
+    double in = xmin;
+    double gap = (xmax - xmin) / (double)intervals;
+    double *fvalues = NULL;
 
     /* this array will store the (steps+1) values of the polynomial that are delimiting the equally spaced intervals*/
-    fvalues = (float *)malloc(sizeof(float) * (intervals + 1));
+    fvalues = (double *)malloc(sizeof(double) * (intervals + 1));
     if (fvalues == NULL)
     {
         printf("\nERROR: cannot allocate memory\n");
@@ -98,11 +98,11 @@ int main()
 
     /* to compute the integral according to the rectangular rule */
     Rectangular(fvalues, intervals + 1, gap, &integ1, &integ2);
-    printf("\nRectangular rule - The integral between %f and %f is in the interval: [%f,%f]\n", xmin, xmax, integ1, integ2);
+    printf("\nRectangular rule - The integral between %lf and %lf is in the interval: [%lf,%lf]\n", xmin, xmax, integ1, integ2);
 
     /* to compute the integral according to the trapezoidal rule */
     integ1 = Trapezoidal(fvalues, intervals + 1, gap);
-    printf("\nTrapezoidal rule - The integral between %f and %f is : %f\n", xmin, xmax, integ1);
+    printf("\nTrapezoidal rule - The integral between %lf and %lf is : %lf\n", xmin, xmax, integ1);
 
     /* deallocation */
     if (fvalues != NULL)
